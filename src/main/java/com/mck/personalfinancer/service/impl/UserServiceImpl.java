@@ -1,8 +1,13 @@
 package com.mck.personalfinancer.service.impl;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mck.personalfinancer.exception.AuthenticationError;
 import com.mck.personalfinancer.exception.BusinessRuleException;
 import com.mck.personalfinancer.model.entity.User;
 import com.mck.personalfinancer.repository.UserRepository;
@@ -22,14 +27,22 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User authenticate(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<User> user = repo.findByEmail(email);
+		if(!user.isPresent()) {
+			throw new AuthenticationError("User not found with email "+email);
+		}
+		if(!user.get().getPassword().equals(password)) {
+			throw new AuthenticationError("Wrong password");
+		}
+		
+		return user.get();
 	}
 
 	@Override
-	public User inserUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public User insertUser(User user) {
+		validateEmail(user.getEmail());
+		return repo.save(user);
 	}
 
 	@Override

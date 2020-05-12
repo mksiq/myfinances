@@ -1,11 +1,10 @@
 package com.mck.personalfinancer.exception;
 
-public class BusinessRuleException extends RuntimeException {
+public class AuthenticationError extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 
-	public BusinessRuleException(String message) {
+	public AuthenticationError(String message) {
 		super(message);
 	}
-
 }
