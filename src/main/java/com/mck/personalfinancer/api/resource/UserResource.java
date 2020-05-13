@@ -3,6 +3,7 @@ package com.mck.personalfinancer.api.resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity insert(@RequestBody UserDTO dto){
+	public ResponseEntity insert(@PathVariable Long id, @RequestBody UserDTO dto){
 		User user = new User(null, dto.getName(), dto.getEmail(), dto.getPassword());
 		try {
 			User insertedUser = service.insertUser(user);			

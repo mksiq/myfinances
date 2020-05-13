@@ -25,6 +25,10 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	public Optional<User> findById(Long id) {
+		return repo.findById(id);
+	}
+	@Override
 	public User authenticate(String email, String password) {
 		Optional<User> user = repo.findByEmail(email);
 		if(!user.isPresent()) {

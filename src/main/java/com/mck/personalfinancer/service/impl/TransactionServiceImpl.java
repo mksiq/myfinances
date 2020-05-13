@@ -3,8 +3,7 @@ package com.mck.personalfinancer.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-
-
+import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mck.personalfinancer.exception.BusinessRuleException;
 import com.mck.personalfinancer.model.entity.Transaction;
+import com.mck.personalfinancer.model.entity.User;
 import com.mck.personalfinancer.model.enums.TransactionStatus;
 import com.mck.personalfinancer.repository.TransactionRepository;
 import com.mck.personalfinancer.service.TransactionService;
@@ -27,15 +27,18 @@ public class TransactionServiceImpl implements TransactionService{
 		this.repository = repository;
 	}
 	
-
+	@Override
+	public Optional<Transaction> findById(Long id){
+		return repository.findById(id);
+	}
+	
 	@Override
 	@Transactional
 	public Transaction insert(Transaction transaction) {
-		validate(transaction);
+	//	validate(transaction);
 		transaction.setStatus(TransactionStatus.PENDING);
 		return repository.save(transaction);
 	}
-
 
 	@Override
 	@Transactional
@@ -66,10 +69,8 @@ public class TransactionServiceImpl implements TransactionService{
 		update(transaction);
 	}
 
-
 	@Override
-	public void validate(Transaction transaction) {
-		
+	public void validate(Transaction transaction) {	
 		if(transaction.getDescription() == null || transaction.getDescription().trim().isEmpty()) {
 			throw new BusinessRuleException("You need a Description.");
 		}

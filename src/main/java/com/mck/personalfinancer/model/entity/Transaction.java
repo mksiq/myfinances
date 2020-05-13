@@ -48,6 +48,35 @@ public class Transaction {
 	@Column(name = "status")
 	@Enumerated(value = EnumType.STRING)
 	private TransactionStatus status;
+	
+	
+	public Transaction() {
+		super();
+	}
+	public Transaction(Long id, String description, Integer month, Integer year, User user, BigDecimal value,
+			LocalDate insertDate, TransactionType type, TransactionStatus status) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.month = month;
+		this.year = year;
+		this.user = user;
+		this.value = value;
+		this.insertDate = insertDate;
+		this.type = type;
+		this.status = status;
+	}
+	
+	public Transaction(Long id, String description, Integer month, Integer year, User user, BigDecimal value) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.month = month;
+		this.year = year;
+		this.user = user;
+		this.value = value;
+	}
+
 	public Long getId() {
 		return id;
 	}
