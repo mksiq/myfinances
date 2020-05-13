@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mck.personalfinancer.exception.BusinessRuleException;
 import com.mck.personalfinancer.model.entity.Transaction;
-import com.mck.personalfinancer.model.entity.User;
 import com.mck.personalfinancer.model.enums.TransactionStatus;
+import com.mck.personalfinancer.model.enums.TransactionType;
 import com.mck.personalfinancer.repository.TransactionRepository;
 import com.mck.personalfinancer.service.TransactionService;
 
@@ -89,5 +89,21 @@ public class TransactionServiceImpl implements TransactionService{
 		if(transaction.getType() == null) {
 			throw new BusinessRuleException("Give the type of the transaction.");
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal getBalanceByUser(Long id) {
+		BigDecimal incomes = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.INCOME);
+		BigDecimal expenses = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.EXPENSE);
+		
+		if(incomes == null) {
+			incomes = BigDecimal.ZERO;
+		}
+		if(expenses == null) {
+			expenses = BigDecimal.ZERO;
+		}
+		
+		return incomes.subtract(expenses);
 	}
 }

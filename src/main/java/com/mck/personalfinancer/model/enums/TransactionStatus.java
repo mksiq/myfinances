@@ -2,6 +2,6 @@ package com.mck.personalfinancer.model.enums;
 
 public enum TransactionStatus {
 	PENDING,
-	CANCELLED,
+	CANCELED,
 	APPROVED
 }

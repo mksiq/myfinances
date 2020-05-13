@@ -1,5 +1,6 @@
 package com.mck.personalfinancer.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface TransactionService {
 	void validate(Transaction t);
 	
 	Optional<Transaction> findById(Long id);
+	
+	BigDecimal getBalanceByUser(Long idUser);
 }
