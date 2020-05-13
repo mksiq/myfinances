@@ -17,4 +17,6 @@ public interface TransactionService {
 	List<Transaction> findAll( Transaction filter);
 	
 	void updateStatus(Transaction t, TransactionStatus s);
+	
+	void validate(Transaction t);
 }
