@@ -77,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService{
 		if(transaction.getMonth() == null || transaction.getMonth() < 1 || transaction.getMonth() > 12) {
 			throw new BusinessRuleException("Give a valid month.");
 		}
-		if(transaction.getMonth() == null || transaction.getYear() < 1000) {
+		if(transaction.getYear() == null || transaction.getYear() < 1000) {
 			throw new BusinessRuleException("Give a valid year.");
 		}
 		if(transaction.getUser() == null || transaction.getUser().getId() == null) {
