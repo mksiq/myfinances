@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.mck.personalfinancer.api.dto.TransactionDTO;
 import com.mck.personalfinancer.api.dto.UpdateStatusDTO;
@@ -66,6 +67,12 @@ public class TransactionResource {
 		}
 	}
 
+	@GetMapping("{id}")
+	public ResponseEntity getTransaction(@PathVariable("id") Long id){
+		return service.findById(id).map( transaction -> new ResponseEntity(toDTO(transaction), HttpStatus.OK))
+					.orElseGet( () ->  new ResponseEntity(HttpStatus.NOT_FOUND));
+	}
+
 	@PutMapping("{id}")
 	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody TransactionDTO objDto) {
 		objDto.setId(id);
@@ -116,5 +123,9 @@ public class TransactionResource {
 			obj.setType(TransactionType.valueOf(objDto.getType()));
 		}
 		return obj;
+	}
+
+	private TransactionDTO toDTO(Transaction obj) {
+		return new TransactionDTO(obj.getId(), obj.getDescription(), obj.getMonth(), obj.getYear(), obj.getValue(), obj.getUser().getId(), obj.getStatus().name(), obj.getType().name());
 	}
 }
