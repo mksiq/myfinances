@@ -94,8 +94,8 @@ public class TransactionServiceImpl implements TransactionService{
 	@Override
 	@Transactional(readOnly = true)
 	public BigDecimal getBalanceByUser(Long id) {
-		BigDecimal incomes = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.INCOME);
-		BigDecimal expenses = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.EXPENSE);
+		BigDecimal incomes = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.INCOME, TransactionStatus.APPROVED);
+		BigDecimal expenses = repository.getBalanceByTypeOfTransactionAndUser(id, TransactionType.EXPENSE,  TransactionStatus.APPROVED);
 		
 		if(incomes == null) {
 			incomes = BigDecimal.ZERO;
